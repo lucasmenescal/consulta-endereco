@@ -25,7 +25,7 @@ public class EnderecoController {
         RestTemplate restTemplate = new RestTemplate();
         String url = "";
         if (cep == null || cep == "" || cep.isBlank() == true)
-            throw new NotFoundException("CEP não encontrado: " + cep);
+            throw new NotFoundException("Favor enviar o CEP!" );
 
         url = ViaCepApi.getUrl(cep);
 
