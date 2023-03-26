@@ -29,21 +29,21 @@ public class EnderecoController {
     @PostMapping("/consulta-endereco")
     @ApiOperation(response = Endereco.class ,value = "Consulta de Endereço por CEP", notes = "Retorna informações de endereço e calcula o frete com base no CEP fornecido")
     @ApiResponse(responseCode = "200", description = "Endereço encontrado e calculado com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Endereco.class)))
-    public ResponseEntity<?> consultaEndereco(@RequestBody EnderecoRequest cep) {
+    public ResponseEntity<?> consultaEndereco(@RequestBody EnderecoRequest request) {
 
         RestTemplate restTemplate = new RestTemplate();
         String url = "";
-        if (cep.getCep() == null || cep.getCep() == "" || cep.getCep().isBlank() == true)
+        if (request.getCep() == null || request.getCep() == "" || request.getCep().isBlank() == true)
             throw new NotFoundException("Favor enviar o CEP!");
 
-        url = ViaCepApi.getUrl(cep.getCep());
+        url = ViaCepApi.getUrl(request.getCep());
 
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
         Endereco endereco = new Gson().fromJson(response.getBody(), Endereco.class);
 
         if (endereco.getEstado() == null || endereco.getEstado() == "" || endereco.getEstado().isBlank() == true)
-            throw new NotFoundException("CEP não encontrado ou não existente: " + cep);
+            throw new NotFoundException("CEP não encontrado ou não existente: " + request.getCep());
 
         endereco.setFrete(Regioes.getValorFrete(Regioes.getRegiaoEndereco(endereco.getEstado())));
         return ResponseEntity.ok(endereco);

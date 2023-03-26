@@ -42,7 +42,6 @@ public class EnderecoControllerTest {
         String responseJson = mapper.writeValueAsString(response.getBody());
 
         assertThat(responseJson).isEqualTo(expectedJson);
-        System.out.println(assertThat(responseJson).isEqualTo(expectedJson));
     }
 
 }
