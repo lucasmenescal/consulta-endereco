@@ -43,6 +43,6 @@ para o cliente.
 > Testes automatizados utilizando cucumber
 ```
 
-### Para acessar a Documentação Swagger
-1. Quando a API estiver rodando dentro do container acesse o link:
+### Para acessar a Documentação Swagger ⬇️
+1. Quando a API estiver rodando dentro do container acesse o link: 
 [Documentação Swagger](http://localhost:8080/swagger-ui/index.html)
