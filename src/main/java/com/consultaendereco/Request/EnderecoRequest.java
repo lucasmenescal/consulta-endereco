@@ -1,6 +1,7 @@
 package com.consultaendereco.Request;
 
 public class EnderecoRequest {
+
     private String cep;
 
     public EnderecoRequest() {
