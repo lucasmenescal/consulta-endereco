@@ -2,6 +2,7 @@ package com.consultaendereco.Controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -11,8 +12,6 @@ import com.consultaendereco.Entidades.Endereco;
 import com.consultaendereco.Entidades.Regioes;
 import com.consultaendereco.Exception.NotFoundException;
 import com.consultaendereco.Request.EnderecoRequest;
-
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 import com.google.gson.Gson;
 
