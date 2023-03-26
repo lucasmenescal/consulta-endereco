@@ -15,19 +15,28 @@ import com.consultaendereco.Request.EnderecoRequest;
 
 import com.google.gson.Gson;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+
+
+
 @RestController
 @RequestMapping("/v1")
 public class EnderecoController {
 
     @PostMapping("/consulta-endereco")
-    public ResponseEntity<?> consultaEndereco(@RequestBody EnderecoRequest request) {
-        String cep = request.getCep();
+    @ApiOperation(response = Endereco.class ,value = "Consulta de Endereço por CEP", notes = "Retorna informações de endereço e calcula o frete com base no CEP fornecido")
+    @ApiResponse(responseCode = "200", description = "Endereço encontrado e calculado com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Endereco.class)))
+    public ResponseEntity<?> consultaEndereco(@RequestBody EnderecoRequest cep) {
+
         RestTemplate restTemplate = new RestTemplate();
         String url = "";
-        if (cep == null || cep == "" || cep.isBlank() == true)
-            throw new NotFoundException("Favor enviar o CEP!" );
+        if (cep.getCep() == null || cep.getCep() == "" || cep.getCep().isBlank() == true)
+            throw new NotFoundException("Favor enviar o CEP!");
 
-        url = ViaCepApi.getUrl(cep);
+        url = ViaCepApi.getUrl(cep.getCep());
 
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
