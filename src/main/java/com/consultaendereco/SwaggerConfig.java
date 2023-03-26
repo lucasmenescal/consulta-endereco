@@ -22,12 +22,4 @@ public class SwaggerConfig {
                 .build();
     }
 
-    // private ApiInfo apiInfo() {
-    //     return new ApiInfoBuilder()
-    //             .title("Consulta Endereço API")
-    //             .description("API para consultar endereços")
-    //             .version("1.0.0")
-    //             .build();
-    // }
-
 }

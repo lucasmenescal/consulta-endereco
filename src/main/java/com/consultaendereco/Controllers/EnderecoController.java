@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.consultaendereco.utils.CepValidator;
 import com.consultaendereco.utils.ViaCepApi;
 import com.consultaendereco.Entidades.Endereco;
 import com.consultaendereco.Entidades.Regioes;
@@ -20,21 +21,24 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
-
-
 @RestController
 @RequestMapping("/v1")
 public class EnderecoController {
 
     @PostMapping("/consulta-endereco")
-    @ApiOperation(response = Endereco.class ,value = "Consulta de Endereço por CEP", notes = "Retorna informações de endereço e calcula o frete com base no CEP fornecido")
+    @ApiOperation(response = Endereco.class, value = "Consulta de Endereço por CEP", notes = "Retorna informações de endereço e calcula o frete com base no CEP fornecido")
     @ApiResponse(responseCode = "200", description = "Endereço encontrado e calculado com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Endereco.class)))
     public ResponseEntity<?> consultaEndereco(@RequestBody EnderecoRequest request) {
 
+        if (request.getCep() == null || request.getCep() == "" || request.getCep().isBlank() == true)
+            return ResponseEntity.badRequest().body("CEP obrigatório!");
+            
+        if (CepValidator.isValidCep(request.getCep()) == false) 
+            return ResponseEntity.badRequest().body("CEP com formato inválido: " + request.getCep());
+        
+
         RestTemplate restTemplate = new RestTemplate();
         String url = "";
-        if (request.getCep() == null || request.getCep() == "" || request.getCep().isBlank() == true)
-            throw new NotFoundException("Favor enviar o CEP!");
 
         url = ViaCepApi.getUrl(request.getCep());
 
